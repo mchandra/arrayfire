@@ -41,9 +41,15 @@ namespace opencl
             setSrc.emplace_back(USE_DBL_SRC_STR.c_str(), USE_DBL_SRC_STR.length());
             setSrc.emplace_back(KParam_hpp, KParam_hpp_len);
 
+            char fileName[50];
+            sprintf(fileName, "kernel.cl");
+            FILE *fp = fopen(fileName, "a");
+
             for (int i = 0; i < num_files; i++) {
                 setSrc.emplace_back(ker_strs[i], ker_lens[i]);
+                fprintf(fp, ker_strs[i]);
             }
+            fclose(fp);
 
             static std::string defaults =
                 std::string(" -D dim_t=") +
@@ -53,6 +59,7 @@ namespace opencl
             std::vector<cl::Device> targetDevices;
             targetDevices.push_back(getDevice());
             prog.build(targetDevices, (defaults + options).c_str());
+            SHOW_DEBUG_BUILD_INFO(prog);
 
         } catch (...) {
             SHOW_BUILD_INFO(prog);
