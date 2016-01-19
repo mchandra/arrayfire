@@ -19,9 +19,9 @@ namespace common
 {
 
 MemoryManager::MemoryManager(int num_devices, unsigned MAX_BUFFERS, unsigned MAX_BYTES, bool debug):
-    mem_step_size(1024),
-    max_buffers(MAX_BUFFERS),
-    max_bytes(MAX_BYTES),
+    mem_step_size(1024 * 1024),
+    max_buffers(1000),
+    max_bytes(2 * (1 << 30)),
     memory(num_devices),
     debug_mode(debug)
 {
